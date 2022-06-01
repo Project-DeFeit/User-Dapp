@@ -9,7 +9,7 @@ export default function Home() {
 
   async function connect() {
     try {
-      await activate(injected); 
+      await activate(injected);
     } catch (e) {
       console.log(e);
     }
@@ -18,14 +18,11 @@ export default function Home() {
     <div className={styles.container}>
       {active ? (
         <>
-        Connected
           <View active={active} provider={provider} />
         </>
       ) : (
         <button onClick={() => connect()}>Connect</button>
       )}
-        
-
     </div>
   );
 }
