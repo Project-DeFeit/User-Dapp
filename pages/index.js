@@ -5,7 +5,7 @@ import Scanner from "../components/Scanner";
 
 export default function Home() {
   const injected = new InjectedConnector();
-  const { activate, active, library: provider } = useWeb3React();
+  const { activate, active, account, library: provider } = useWeb3React();
 
   async function connect() {
     try {
@@ -18,7 +18,7 @@ export default function Home() {
     <div className={styles.container}>
       {active ? (
         <>
-          <Scanner active={active} provider={provider} />
+          <Scanner account={account} active={active} provider={provider} />
         </>
       ) : (
         <button onClick={() => connect()}>Connect</button>
