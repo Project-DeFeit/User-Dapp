@@ -1,21 +1,29 @@
-import QrReader from "react-qr-scanner";
+import { QrReader } from "react-qr-reader";
 import { useState } from "react";
 
 const Scanner = (props) => {
   const [result, setResult] = useState("");
 
-  const handleScan = (data) => {
-    setResult(data);
-    console.log(result);
-  };
+  const presplitValue = result;
+  const postsplitValue = presplitValue.split(";");
+  const address = postsplitValue[0];
+  const drugIndex = postsplitValue[1];
+  console.log(address);
+  console.log(drugIndex);
 
-  const handleError = (err) => {
-    console.error(err);
-  };
   return (
     <>
-      <QrReader delay="100" onScan={handleScan} onError={handleError} />
-      <p>{console.log(result)}</p>
+      <QrReader
+        onResult={(result, error) => {
+          if (!!result) {
+            setResult(result?.text);
+          }
+          //   if (!!error) {
+          //     console.info(error);
+          //   }
+        }}
+        style={{ width: "100%" }}
+      />
       <p>{result}</p>
     </>
   );

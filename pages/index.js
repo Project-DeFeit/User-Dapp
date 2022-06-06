@@ -1,7 +1,6 @@
 import styles from "../styles/Home.module.css";
 import { useWeb3React } from "@web3-react/core";
 import { InjectedConnector } from "@web3-react/injected-connector";
-// import View from "../components/View";
 import Scanner from "../components/Scanner";
 
 export default function Home() {
