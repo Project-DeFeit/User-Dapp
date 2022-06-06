@@ -1,7 +1,8 @@
 import styles from "../styles/Home.module.css";
 import { useWeb3React } from "@web3-react/core";
 import { InjectedConnector } from "@web3-react/injected-connector";
-import View from "../components/View";
+// import View from "../components/View";
+import Scanner from "../components/Scanner";
 
 export default function Home() {
   const injected = new InjectedConnector();
@@ -18,7 +19,7 @@ export default function Home() {
     <div className={styles.container}>
       {active ? (
         <>
-          <View active={active} provider={provider} />
+          <Scanner active={active} provider={provider} />
         </>
       ) : (
         <button onClick={() => connect()}>Connect</button>
