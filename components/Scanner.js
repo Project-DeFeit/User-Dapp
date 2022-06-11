@@ -1,11 +1,15 @@
 import { QrReader } from "react-qr-reader";
 import { useState } from "react";
 import abi from "../constants/abi";
+import styles from "../styles/Home.module.css";
 import { ethers } from "ethers";
+import{Modal, Box, Button,Typography} from "@material-ui/core";
 
 const Scanner = (props) => {
   const [result, setResult] = useState("");
-
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const [status, setStatus] = useState(0);
   // const [flag, setFlag] = useState(0);
   const [name, setName] = useState("");
@@ -23,7 +27,9 @@ const Scanner = (props) => {
   const index = postsplitValue[1];
 
   const contractABI = abi.abi;
-  const contractAddress = "0x9BFFd0bA042d40f38811Ff7e34D7D22e2FeaC223";
+  const contractAddress = "0xFbC9fB3147A49726bE11F29e9Bec2A82dd653817";
+
+  
 
   async function getDrugData() {
     const provider = props.provider;
@@ -57,6 +63,7 @@ const Scanner = (props) => {
       setIngredients(getData.ingredients);
     } catch (e) {
       console.log(e);
+      setStatus(0);
     }
   }
   async function checkStatus() {
@@ -83,24 +90,59 @@ const Scanner = (props) => {
               }}
             />
           </div>
-          <div style={{ textAlign: "center" }}>
-            <button onClick={() => checkStatus()}>Verify</button>
+          <div className={styles.cent}>
+          <div className={styles.group} >
+                <Button variant="contained" style={{background:"#ff6a00", color:"white", margin:"10px"}} onClick={() => checkStatus()}>Verify</Button>
+              
+              <br />
+            
+                <Button variant="contained" style={{background:"crimson", color:"white", margin:"10px"}} onClick={() => getDrugData()}>Get Drug Name</Button>
           </div>
-          <br />
-          <div style={{ textAlign: "center" }}>
-            <button onClick={() => getDrugData()}>Get Drug Data</button>
-            <form>
-              <p>{`Name: ${name}`}</p>
+          </div>
+          
+                
+          
+          <div style={{ textAlign: "center", color:"white" }}>
+                <form>
+                  <b>{`Name: ${name}`}</b>
+                </form>
+              </div>
+          <div  style={{ textAlign: "center" }}>
+          <Button variant="contained" style={{background:"green", color:"white", margin:"10px"}} onClick={handleOpen}>View Drug Details</Button>
+          
+          <div className={styles.group} >
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box className={styles.modal}>
+              <div style={{ background: "black", borderRadius:"25px 25px 0 0 " }} >
+                <Typography id="modal-modal-title"  variant="h6" component="h2" style={{margin: "1.5rem", textAlign: "center", color:"white",fontWeight:"bold"}}>
+                <b>{`${name}`}</b>
+                </Typography>
+              </div>
+             <div style={{margin: "1.5rem"}}>
+             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              <b>
               <p>{`Net Content: ${content}`}</p>
               <p>{`Mfg License Num: ${license}`}</p>
               <p>{`Batch Num: ${batch}`}</p>
               <p>{`Mfg Date: ${mdate}`}</p>
-              <p>{`Exp Date: ${edate}`}</p>
               <p>{`Price: ${price}`}</p>
               <p>{`Mfg By: ${adrs}`}</p>
               <p>{`Ingredients: ${ingredients}`}</p>
-            </form>
+              </b>
+              </Typography>
+             </div>
+              
+            </Box>
+          </Modal>
           </div>
+          </div>
+          
+      
         </>
       ) : (
         <>Please connect to metamask</>
